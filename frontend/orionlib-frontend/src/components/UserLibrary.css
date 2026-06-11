@@ -1,0 +1,199 @@
+.ul-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.ul-header h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 4px;
+}
+
+.ul-header p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+}
+
+.ul-section {
+    background: white;
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.ul-section-header {
+    margin-bottom: 1.5rem;
+}
+
+.ul-section-header h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ul-icon-bg {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.ul-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.ul-card {
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s;
+}
+
+.ul-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.ul-card-cover {
+    height: 180px;
+    background: #f1f5f9;
+}
+
+.ul-card-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ul-placeholder-cover {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+}
+
+.ul-card-info {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.ul-cat {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+}
+
+.ul-card-info h4 {
+    font-size: 1rem;
+    line-height: 1.3;
+    color: var(--primary);
+    margin-bottom: 4px;
+}
+
+.ul-card-info p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.ul-loan-meta {
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 1rem 0;
+}
+
+.ul-meta-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+}
+
+.ul-meta-item span { color: var(--text-muted); }
+.ul-meta-item strong { color: var(--primary); }
+
+.ul-btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.ul-btn--primary {
+    background: var(--primary);
+    color: white;
+}
+.ul-btn--primary:hover { background: #0f0f1a; }
+
+.ul-btn--outline {
+    background: transparent;
+    color: var(--primary);
+    border: 1.5px solid var(--border);
+}
+.ul-btn--outline:hover {
+    border-color: var(--primary);
+    background: #f8fafc;
+}
+
+.ul-btn--ghost {
+    background: #f1f5f9;
+    color: var(--text-dark);
+}
+.ul-btn--ghost:hover { background: #e2e8f0; }
+
+.ul-empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 2px dashed var(--border);
+}
+
+.ul-empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.ul-empty-state h3 {
+    font-size: 1.25rem;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.ul-empty-state p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    max-width: 400px;
+    margin: 0 auto 1.5rem;
+}
+
+.ul-empty-state--small {
+    padding: 2rem;
+    background: transparent;
+    border: none;
+}
