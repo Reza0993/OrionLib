@@ -36,6 +36,29 @@ CREATE TABLE IF NOT EXISTS `books` (
   CONSTRAINT `fk_book_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- 4. Tabel Loans
+CREATE TABLE IF NOT EXISTS `loans` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT NOT NULL,
+  `book_id` INT NOT NULL,
+  `borrow_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `return_date` TIMESTAMP NULL,
+  `status` ENUM('borrowed', 'returned') DEFAULT 'borrowed',
+  CONSTRAINT `fk_loan_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_loan_book` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 5. Tabel Saved Books
+CREATE TABLE IF NOT EXISTS `saved_books` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT NOT NULL,
+  `book_id` INT NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `unique_user_book` (`user_id`, `book_id`),
+  CONSTRAINT `fk_saved_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_saved_book` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- Seed Data Awal Categories
 INSERT INTO `categories` (`id`, `category_name`) VALUES 
 (1, 'Novel'),
