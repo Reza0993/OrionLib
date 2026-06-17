@@ -60,7 +60,7 @@ function UserDashboard({ user, onLogout, books, loading, isAdmin, userLibrary, o
 
     const getCoverSrc = (book) => {
         if (!book?.cover_img) return null;
-        return book.cover_img.startsWith('http') ? book.cover_img : `http://localhost:3000${book.cover_img}`;
+        return book.cover_img.startsWith('http') ? book.cover_img : `http://localhost:3000/uploads/${book.cover_img}`;
     };
 
     const checkBorrowed = (book) => userLibrary?.borrowed?.some(b => b.book_id === book.id);
@@ -98,7 +98,7 @@ function UserDashboard({ user, onLogout, books, loading, isAdmin, userLibrary, o
                             </svg>
                         </div>
                         <div>
-                            <div className="ud-sidebar__logo-name">Orionlab</div>
+                            <div className="ud-sidebar__logo-name">Orionlib</div>
                             <div className="ud-sidebar__logo-sub">Academic Portal</div>
                         </div>
                     </div>

@@ -214,6 +214,53 @@ class BookController {
             });
         }
     }
+    // 6. GET ALL CATEGORIES (Menampilkan Semua Kategori)
+    async getCategories(req, res) {
+        try {
+            const db = require('../config/database');
+            db.query("SELECT * FROM categories ORDER BY category_name ASC", (err, results) => {
+                if (err) {
+                    return res.status(500).json({ success: false, message: "Gagal mengambil kategori", error: err.message });
+                }
+                return res.status(200).json({ success: true, data: results });
+            });
+        } catch (error) {
+            return res.status(500).json({ success: false, message: "Internal Server Error saat mengambil kategori", error: error.message });
+        }
+    }
+
+    // 7. BULK STORE BOOKS (Menambahkan Banyak Buku Sekaligus)
+    async bulkStore(req, res) {
+        const { books } = req.body;
+        if (!Array.isArray(books) || books.length === 0) {
+            return res.status(400).json({ success: false, message: "Data buku tidak valid. Harus berupa array." });
+        }
+        try {
+            const db = require('../config/database');
+            const promises = books.map(book => {
+                return new Promise((resolve, reject) => {
+                    const dataBook = {
+                        category_id: book.category_id || null,
+                        title: book.title,
+                        author: book.author,
+                        publisher: book.publisher || null,
+                        publish_year: parseInt(book.publish_year) || new Date().getFullYear(),
+                        isbn: book.isbn || null,
+                        stock: parseInt(book.stock) || 0,
+                        cover_img: book.cover_img || null
+                    };
+                    db.query("INSERT INTO books SET ?", dataBook, (err, result) => {
+                        if (err) reject(err);
+                        else resolve(result);
+                    });
+                });
+            });
+            await Promise.all(promises);
+            return res.status(201).json({ success: true, message: `${books.length} buku berhasil diunggah secara bulk.` });
+        } catch (error) {
+            return res.status(500).json({ success: false, message: "Gagal mengunggah buku secara bulk", error: error.message });
+        }
+    }
 }
 
 // Mengekspor instance objek yang sudah siap pakai langsung di routing

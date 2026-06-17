@@ -58,12 +58,22 @@ function UserLibrary({ library, onReturnBook, onUnsaveBook, onBrowseBooks }) {
                                             <strong>{new Date(book.borrow_date).toLocaleDateString()}</strong>
                                         </div>
                                     </div>
-                                    <button 
-                                        className="ul-btn ul-btn--outline" 
-                                        onClick={() => onReturnBook(book.book_id)}
-                                    >
-                                        Return Book
-                                    </button>
+                                     {book.status === 'pending' ? (
+                                         <button 
+                                             className="ul-btn ul-btn--outline" 
+                                             style={{ borderColor: '#d97706', color: '#d97706', cursor: 'default', opacity: 0.8 }}
+                                             disabled
+                                         >
+                                             Awaiting Approval
+                                         </button>
+                                     ) : (
+                                         <button 
+                                             className="ul-btn ul-btn--outline" 
+                                             onClick={() => onReturnBook(book.book_id)}
+                                         >
+                                             Return Book
+                                         </button>
+                                     )}
                                 </div>
                             </div>
                         ))}

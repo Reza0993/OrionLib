@@ -13,7 +13,7 @@ const migrate = async () => {
                     book_id INT NOT NULL,
                     borrow_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     return_date TIMESTAMP NULL,
-                    status ENUM('borrowed', 'returned') DEFAULT 'borrowed',
+                    status ENUM('borrowed', 'returned', 'pending', 'denied') DEFAULT 'pending',
                     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
                     FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -21,7 +21,18 @@ const migrate = async () => {
                 if (err) reject(err);
                 else {
                     console.log("Table 'loans' created or already exists.");
-                    resolve();
+                    // Alter status column to ensure existing tables have the new enum values
+                    db.query(`
+                        ALTER TABLE loans 
+                        MODIFY COLUMN status ENUM('borrowed', 'returned', 'pending', 'denied') DEFAULT 'pending'
+                    `, (alterErr) => {
+                        if (alterErr) {
+                            console.warn("Warning: Could not alter status column (it might already be correct):", alterErr.message);
+                        } else {
+                            console.log("Column 'status' altered successfully to support pending/denied.");
+                        }
+                        resolve();
+                    });
                 }
             });
         });

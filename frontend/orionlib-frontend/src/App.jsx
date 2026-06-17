@@ -9,6 +9,7 @@ import EditBookModal from './components/EditBookModal';
 import BookDetails from './components/BookDetails';
 import LoginPage from './components/LoginPage';
 import UserDashboard from './components/UserDashboard';
+import AdminDashboard from './components/AdminDashboard';
 import { apiService } from './services/api';
 import api from './services/api';
 
@@ -225,26 +226,44 @@ function App() {
     if (view === 'dashboard' && user) {
         return (
             <>
-                <UserDashboard 
-                    user={user} 
-                    onLogout={handleLogout} 
-                    books={books}
-                    loading={loading}
-                    isAdmin={isAdmin}
-                    userLibrary={userLibrary}
-                    onEditClick={handleEditClick}
-                    onDeleteClick={handleDeleteBook}
-                    onAddNew={() => { setSelectedBook(null); setIsEditModalOpen(true); }}
-                    onBorrowBook={handleBorrowBook}
-                    onReturnBook={handleReturnBook}
-                    onToggleSave={handleToggleSaveBook}
-                    onBookClick={handleBookClick}
-                    onUpdateUser={setUser}
-                    onGoHome={() => {
-                        setView('home');
-                        window.scrollTo(0, 0);
-                    }}
-                />
+                {isAdmin ? (
+                    <AdminDashboard
+                        user={user}
+                        onLogout={handleLogout}
+                        books={books}
+                        loading={loading}
+                        onEditClick={handleEditClick}
+                        onDeleteClick={handleDeleteBook}
+                        onAddNew={() => { setSelectedBook(null); setIsEditModalOpen(true); }}
+                        onUpdateUser={setUser}
+                        onGoHome={() => {
+                            setView('home');
+                            window.scrollTo(0, 0);
+                        }}
+                        loadAllBooks={loadAllBooks}
+                    />
+                ) : (
+                    <UserDashboard 
+                        user={user} 
+                        onLogout={handleLogout} 
+                        books={books}
+                        loading={loading}
+                        isAdmin={isAdmin}
+                        userLibrary={userLibrary}
+                        onEditClick={handleEditClick}
+                        onDeleteClick={handleDeleteBook}
+                        onAddNew={() => { setSelectedBook(null); setIsEditModalOpen(true); }}
+                        onBorrowBook={handleBorrowBook}
+                        onReturnBook={handleReturnBook}
+                        onToggleSave={handleToggleSaveBook}
+                        onBookClick={handleBookClick}
+                        onUpdateUser={setUser}
+                        onGoHome={() => {
+                            setView('home');
+                            window.scrollTo(0, 0);
+                        }}
+                    />
+                )}
                 {/* Edit Book Modal still available for admin */}
                 {isEditModalOpen && (
                     <EditBookModal

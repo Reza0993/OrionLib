@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `loans` (
   `book_id` INT NOT NULL,
   `borrow_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `return_date` TIMESTAMP NULL,
-  `status` ENUM('borrowed', 'returned') DEFAULT 'borrowed',
+  `status` ENUM('borrowed', 'returned', 'pending', 'denied') DEFAULT 'pending',
   CONSTRAINT `fk_loan_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_loan_book` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
