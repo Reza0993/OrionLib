@@ -17,7 +17,7 @@ function Header({ user, onLoginClick, onLogout, onDashboardClick }) {
                 {/* Logo */}
                 <a href="#" className="orion-header__logo">
                     <span className="orion-header__logo-icon">✦</span>
-                    <span className="orion-header__logo-text">Orionlib</span>
+                    <span className="orion-header__logo-text">Orionlab</span>
                 </a>
 
                 {/* Nav */}
