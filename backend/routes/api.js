@@ -52,5 +52,7 @@ router.post('/books/:id/return', auth, UserController.returnBook);
 router.post('/books/:id/save', auth, UserController.saveBook);
 router.delete('/books/:id/save', auth, UserController.unsaveBook);
 router.get('/user/library', auth, UserController.getLibrary);
+router.put('/user/profile', auth, UserController.updateProfile);
+router.put('/user/password', auth, UserController.changePassword);
 
 module.exports = router;

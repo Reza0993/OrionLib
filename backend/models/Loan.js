@@ -63,6 +63,23 @@ class Loan {
             });
         });
     }
+
+    static getUserLoanHistory(userId) {
+        return new Promise((resolve, reject) => {
+            const query = `
+                SELECT l.*, b.title, b.author, b.cover_img, c.category_name 
+                FROM loans l 
+                JOIN books b ON l.book_id = b.id 
+                LEFT JOIN categories c ON b.category_id = c.id
+                WHERE l.user_id = ? AND l.status = 'returned'
+                ORDER BY l.return_date DESC
+            `;
+            db.query(query, [userId], (err, results) => {
+                if (err) reject(err);
+                else resolve(results);
+            });
+        });
+    }
 }
 
 module.exports = Loan;

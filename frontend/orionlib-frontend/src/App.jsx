@@ -28,7 +28,13 @@ function App() {
         const token = localStorage.getItem('orion_token');
         if (token) {
             try {
-                return JSON.parse(window.atob(token.split('.')[1]));
+                const payload = JSON.parse(window.atob(token.split('.')[1]));
+                // Periksa jika token sudah kedaluwarsa (payload.exp dalam hitungan detik)
+                if (payload.exp && payload.exp * 1000 < Date.now()) {
+                    localStorage.removeItem('orion_token');
+                    return null;
+                }
+                return payload;
             } catch {
                 localStorage.removeItem('orion_token');
             }
@@ -86,6 +92,29 @@ function App() {
         if (user) loadUserLibrary();
         else setUserLibrary({ borrowed: [], saved: [] });
     }, [user]);
+
+    // 3c. Efek untuk menangani response error 401 (Unauthorized/Token Kedaluwarsa) secara global
+    useEffect(() => {
+        const responseInterceptor = api.interceptors.response.use(
+            (response) => response,
+            (error) => {
+                if (error.response && error.response.status === 401) {
+                    const msg = error.response.data?.message || "";
+                    if (msg.includes("tidak valid") || msg.includes("kedaluwarsa") || msg.includes("Token tidak ada")) {
+                        localStorage.removeItem('orion_token');
+                        setUser(null);
+                        setView('login');
+                        alert("Sesi Anda telah berakhir. Silakan login kembali.");
+                    }
+                }
+                return Promise.reject(error);
+            }
+        );
+
+        return () => {
+            api.interceptors.response.eject(responseInterceptor);
+        };
+    }, []);
 
     // 4. Handle Login Success
     const handleLoginSuccess = (userData) => {
@@ -210,6 +239,7 @@ function App() {
                     onReturnBook={handleReturnBook}
                     onToggleSave={handleToggleSaveBook}
                     onBookClick={handleBookClick}
+                    onUpdateUser={setUser}
                     onGoHome={() => {
                         setView('home');
                         window.scrollTo(0, 0);
@@ -273,6 +303,7 @@ function App() {
                 ) : (
                     <BookDetails
                         book={activeBook}
+                        books={books}
                         userLibrary={userLibrary}
                         onBorrowBook={handleBorrowBook}
                         onToggleSave={handleToggleSaveBook}

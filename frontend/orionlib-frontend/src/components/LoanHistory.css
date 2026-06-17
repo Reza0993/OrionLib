@@ -1,0 +1,530 @@
+/* Container */
+.lh-container {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #f8fafc;
+    min-height: 100vh;
+}
+
+/* Header */
+.lh-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 1.5rem;
+    gap: 1.5rem;
+}
+.lh-title {
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 0.35rem;
+}
+.lh-subtitle {
+    font-size: 0.88rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.lh-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Tabs */
+.lh-tabs {
+    display: flex;
+    background: #e2e8f0;
+    padding: 3px;
+    border-radius: 8px;
+}
+.lh-tab {
+    background: none;
+    border: none;
+    padding: 6px 16px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #475569;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.lh-tab.active {
+    background: white;
+    color: #0f172a;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* Filter Button */
+.lh-filter-wrapper {
+    position: relative;
+}
+.lh-filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #334155;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.lh-filter-btn:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+}
+
+/* Filter Dropdown */
+.lh-filter-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 6px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    z-index: 10;
+    min-width: 140px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.lh-filter-dropdown button {
+    background: none;
+    border: none;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 0.8rem;
+    color: #475569;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+}
+.lh-filter-dropdown button:hover {
+    background: #f8fafc;
+    color: #0f172a;
+}
+.lh-filter-dropdown button.active {
+    font-weight: 600;
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+/* Section Title Row */
+.lh-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+.lh-section-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.lh-section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+.lh-counter-badge {
+    background: #e2e8f0;
+    color: #475569;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 50px;
+}
+.lh-counter-badge.total-badge {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+/* Active grid */
+.lh-active-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.lh-active-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.lh-active-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.lh-cover-wrapper {
+    position: relative;
+    height: 180px;
+    width: 100%;
+    background: #f1f5f9;
+}
+.lh-cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.lh-card-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 50px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.badge-danger {
+    background: #ef4444;
+    color: white;
+}
+.badge-gray {
+    background: #475569;
+    color: white;
+}
+.badge-primary {
+    background: #3b82f6;
+    color: white;
+}
+
+.lh-card-content {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.lh-card-category {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #3b82f6;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+}
+.lh-card-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.35;
+    margin-bottom: 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 2.7rem;
+}
+.lh-card-author {
+    font-size: 0.78rem;
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.lh-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 0.75rem;
+}
+.lh-date-info {
+    display: flex;
+    flex-direction: column;
+}
+.lh-date-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: 0.05em;
+}
+.lh-date-val {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.lh-action-btn {
+    border: none;
+    background: none;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: color 0.15s;
+}
+.renew-btn {
+    color: #0f172a;
+}
+.renew-btn:hover {
+    color: #3b82f6;
+}
+.pdf-btn {
+    color: #1e293b;
+}
+.pdf-btn:hover {
+    color: #3b82f6;
+}
+
+/* Past Activity Layout */
+.lh-past-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* Featured Horizontal Card */
+.lh-past-featured-card {
+    display: flex;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+.lh-featured-cover-wrapper {
+    width: 140px;
+    height: 180px;
+    background: #f1f5f9;
+    flex-shrink: 0;
+}
+.lh-featured-cover-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.lh-featured-content {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.lh-featured-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+.lh-featured-category {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: 0.05em;
+}
+.lh-status-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 6px;
+}
+.lh-status-badge.returned {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.lh-featured-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 4px;
+    line-height: 1.3;
+}
+.lh-featured-author {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-bottom: 1.25rem;
+}
+
+.lh-featured-meta-box {
+    display: flex;
+    gap: 1.5rem;
+    background: #f8fafc;
+    border: 1px solid #f1f5f9;
+    border-radius: 8px;
+    padding: 10px 14px;
+    width: fit-content;
+}
+.lh-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    color: #475569;
+    font-weight: 500;
+}
+.lh-meta-item svg {
+    color: #94a3b8;
+}
+
+/* Past grid of smaller cards */
+.lh-past-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+.lh-past-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    transition: transform 0.2s;
+}
+.lh-past-card:hover {
+    transform: translateY(-2px);
+}
+
+.lh-past-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.lh-past-card-cat {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: 0.05em;
+}
+.lh-past-status-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #64748b;
+}
+.lh-past-status-badge svg {
+    color: #10b981;
+}
+
+.lh-past-card-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #1e293b;
+    line-height: 1.35;
+    margin-bottom: 2px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 2.4rem;
+}
+.lh-past-card-author {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-bottom: 1.5rem;
+}
+
+.lh-past-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+.lh-past-period {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: 0.02em;
+}
+.lh-past-icon-btn {
+    color: #94a3b8;
+    background: #f8fafc;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    cursor: pointer;
+}
+.lh-past-icon-btn:hover {
+    color: #3b82f6;
+    background: #eff6ff;
+}
+
+/* Load More */
+.lh-load-more-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+.lh-load-more-btn {
+    background: white;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    color: #334155;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 8px 24px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.lh-load-more-btn:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+}
+
+.lh-empty-state {
+    text-align: center;
+    padding: 2.5rem;
+    background: white;
+    border: 1px dashed #cbd5e1;
+    border-radius: 8px;
+    color: #64748b;
+    font-size: 0.85rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .lh-active-grid, .lh-past-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 768px) {
+    .lh-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .lh-actions {
+        justify-content: space-between;
+    }
+    .lh-active-grid, .lh-past-grid {
+        grid-template-columns: 1fr;
+    }
+    .lh-past-featured-card {
+        flex-direction: column;
+    }
+    .lh-featured-cover-wrapper {
+        width: 100%;
+        height: 180px;
+    }
+}
