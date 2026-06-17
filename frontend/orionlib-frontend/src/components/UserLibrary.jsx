@@ -35,7 +35,7 @@ function UserLibrary({ library, onReturnBook, onUnsaveBook, onBrowseBooks }) {
                                 <div className="ul-card-cover">
                                     {book.cover_img ? (
                                         <img 
-                                            src={book.cover_img.startsWith('http') ? book.cover_img : `http://localhost:3000${book.cover_img}`} 
+                                            src={book.cover_img.startsWith('http') ? book.cover_img : `/uploads/${img}`} 
                                             alt={book.title} 
                                             onError={(e) => {
                                                 e.target.style.display = 'none';
@@ -101,7 +101,7 @@ function UserLibrary({ library, onReturnBook, onUnsaveBook, onBrowseBooks }) {
                                 <div className="ul-card-cover">
                                     {book.cover_img ? (
                                         <img 
-                                            src={book.cover_img.startsWith('http') ? book.cover_img : `http://localhost:3000${book.cover_img}`} 
+                                            src={book.cover_img.startsWith('http') ? book.cover_img : `/uploads/${img}`} 
                                             alt={book.title} 
                                             onError={(e) => {
                                                 e.target.style.display = 'none';

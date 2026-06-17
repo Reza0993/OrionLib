@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Konfigurasi instance Axios dengan alamat server backend Express.js kamu
 const api = axios.create({
-    baseURL: 'http://localhost:3000/api' 
+    baseURL: '/api' 
 });
 
 // Otomatis menempelkan token JWT ke Header jika token tersedia di local storage (Pertemuan 7)

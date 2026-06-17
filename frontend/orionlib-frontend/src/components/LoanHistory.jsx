@@ -99,7 +99,7 @@ function LoanHistory({ library, onReturnBook, searchQuery }) {
 
     const getCoverSrc = (img) => {
         if (!img) return 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=400&q=80&auto=format&fit=crop';
-        return img.startsWith('http') ? img : `http://localhost:3000/uploads/${img}`;
+        return img.startsWith('http') ? img : `/uploads/${img}`;
     };
 
     // 1. Process Database Active Loans

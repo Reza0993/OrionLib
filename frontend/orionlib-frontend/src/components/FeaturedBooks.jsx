@@ -32,7 +32,7 @@ function FeaturedBooks({ liveBooks = [], loading, error, isAdmin, userLibrary, o
                                 <div className="book-card__cover" onClick={() => onBookClick && onBookClick(book)} style={{cursor: 'pointer', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                                     {book.cover_img && (
                                         <img 
-                                            src={book.cover_img.startsWith('http') ? book.cover_img : `http://localhost:3000${book.cover_img}`} 
+                                            src={book.cover_img.startsWith('http') ? book.cover_img : `/uploads/${img}`} 
                                             alt={book.title} 
                                             className="book-card__cover-img" 
                                             onError={(e) => {
