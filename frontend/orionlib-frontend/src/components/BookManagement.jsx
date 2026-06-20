@@ -54,7 +54,7 @@ function BookManagement({ isAdmin, loadAllBooks }) {
     // Cover image helper
     const getCoverSrc = (b) => {
         if (!b?.cover_img) return null;
-        return b.cover_img.startsWith('http') ? b.cover_img : `/uploads/${img}`;
+        return b.cover_img.startsWith('http') ? b.cover_img : `/uploads/${b.cover_img}`;
     };
 
     // Delete book

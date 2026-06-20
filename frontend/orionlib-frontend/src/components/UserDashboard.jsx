@@ -60,7 +60,7 @@ function UserDashboard({ user, onLogout, books, loading, isAdmin, userLibrary, o
 
     const getCoverSrc = (book) => {
         if (!book?.cover_img) return null;
-        return book.cover_img.startsWith('http') ? book.cover_img : `/uploads/${img}`;
+        return book.cover_img.startsWith('http') ? book.cover_img : `/uploads/${book.cover_img}`;
     };
 
     const checkBorrowed = (book) => userLibrary?.borrowed?.some(b => b.book_id === book.id);

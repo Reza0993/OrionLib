@@ -19,7 +19,7 @@ const bookValidationRules = [
     body('title').trim().notEmpty().withMessage('Judul buku wajib diisi'),
     body('author').trim().notEmpty().withMessage('Nama penulis wajib diisi'),
     body('publish_year')
-        .isInt({ min: 1000, max: new Date().getFullYear() + 1 })
+        .isInt({ min: 1000, max: new Date().getFullYear() })
         .withMessage('Tahun terbit harus berupa angka tahun yang valid'),
     body('stock')
         .optional()

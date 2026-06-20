@@ -8,22 +8,22 @@ const seed = async () => {
         await query(`
             INSERT INTO categories (id, category_name) VALUES 
             (1, 'Novel'),
-            (2, 'Technology'),
-            (3, 'Science'),
-            (4, 'History'),
-            (5, 'Biography'),
-            (6, 'Physics'),
-            (7, 'Business'),
-            (8, 'Literature'),
-            (9, 'Engineering'),
-            (10, 'Medicine'),
-            (11, 'Law'),
-            (12, 'Mathematics'),
-            (13, 'Sociology'),
-            (14, 'Ethics'),
-            (15, 'Psychology'),
-            (16, 'Management'),
-            (17, 'Religion')
+            (2, 'Teknologi'),
+            (3, 'Sains'),
+            (4, 'Sejarah'),
+            (5, 'Biografi'),
+            (6, 'Fisika'),
+            (7, 'Ekonomi'),
+            (8, 'Sastra'),
+            (9, 'Teknik'),
+            (10, 'Kedokteran'),
+            (11, 'Hukum'),
+            (12, 'Matematika'),
+            (13, 'Sosiologi'),
+            (14, 'Etika'),
+            (15, 'Psikologi'),
+            (16, 'Manajemen'),
+            (17, 'Agama')
             ON DUPLICATE KEY UPDATE category_name=VALUES(category_name)
         `);
         console.log("✅ Categories seeded.");

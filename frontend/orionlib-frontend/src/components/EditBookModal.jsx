@@ -1,36 +1,103 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import api from '../services/api';
 
 function EditBookModal({ isOpen, bookData, onClose, onEditSuccess }) {
-    const [title, setTitle] = useState(bookData?.title || '');
-    const [author, setAuthor] = useState(bookData?.author || '');
-    const [year, setYear] = useState(bookData?.publish_year || bookData?.year || '');
-    const [stock, setStock] = useState(bookData?.stock || '0');
+    const [form, setForm] = useState({
+        title: '',
+        author: '',
+        publisher: '',
+        publish_year: new Date().getFullYear(),
+        isbn: '',
+        stock: 0,
+        category_id: ''
+    });
+    const [categories, setCategories] = useState([]);
+    const [coverFile, setCoverFile] = useState(null);
     const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
 
-    if (!isOpen || !bookData) return null;
+    const isEditMode = !!bookData;
+
+    useEffect(() => {
+        if (bookData) {
+            setForm({
+                title: bookData.title || '',
+                author: bookData.author || '',
+                publisher: bookData.publisher || '',
+                publish_year: bookData.publish_year || '',
+                isbn: bookData.isbn || '',
+                stock: bookData.stock || 0,
+                category_id: bookData.category_id || ''
+            });
+        } else {
+            setForm({
+                title: '',
+                author: '',
+                publisher: '',
+                publish_year: new Date().getFullYear(),
+                isbn: '',
+                stock: 0,
+                category_id: ''
+            });
+        }
+        setCoverFile(null);
+        setErrorMsg('');
+    }, [bookData, isOpen]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const res = await api.get('/categories');
+                if (res.data.success) setCategories(res.data.data);
+            } catch (err) {
+                console.error('Gagal memuat kategori:', err);
+            }
+        };
+        if (isOpen) fetchCategories();
+    }, [isOpen]);
+
+    if (!isOpen) return null;
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setForm(prev => ({ ...prev, [name]: value }));
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrorMsg('');
         setLoading(true);
 
+        const formData = new FormData();
+        Object.keys(form).forEach(key => {
+            formData.append(key, form[key]);
+        });
+        if (coverFile) {
+            formData.append('cover_img', coverFile);
+        }
+
         try {
-            const response = await api.put(`/books/${bookData.id}`, {
-                title,
-                author,
-                publish_year: parseInt(year),
-                stock: parseInt(stock)
-            });
+            let response;
+            if (isEditMode) {
+                response = await api.put(`/books/${bookData.id}`, formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
+            } else {
+                response = await api.post('/books', formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
+            }
 
             if (response.data.success) {
-                alert(`Sukses! Buku "${title}" berhasil diperbarui.`);
+                alert(isEditMode
+                    ? `Sukses! Buku "${form.title}" berhasil diperbarui.`
+                    : `Sukses! Buku "${form.title}" berhasil ditambahkan.`
+                );
                 onEditSuccess();
                 onClose();
             }
         } catch (err) {
-            setErrorMsg(err.response?.data?.message || 'Gagal memperbarui data buku ke server.');
+            setErrorMsg(err.response?.data?.message || (isEditMode ? 'Gagal memperbarui data buku.' : 'Gagal menambahkan buku baru.'));
         } finally {
             setLoading(false);
         }
@@ -54,8 +121,10 @@ function EditBookModal({ isOpen, bookData, onClose, onEditSuccess }) {
         backgroundColor: '#fff',
         borderRadius: '12px',
         padding: '2rem',
-        width: '420px',
+        width: '480px',
         maxWidth: '90%',
+        maxHeight: '90vh',
+        overflowY: 'auto',
         boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
         position: 'relative'
     };
@@ -125,7 +194,7 @@ function EditBookModal({ isOpen, bookData, onClose, onEditSuccess }) {
                 <button style={closeButtonStyle} onClick={onClose}>&times;</button>
                 
                 <h3 style={{ margin: '0 0 1.5rem 0', color: '#1e293b', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    ✏️ Edit Data Buku
+                    {isEditMode ? '✏️ Edit Data Buku' : '📚 Tambah Buku Baru'}
                 </h3>
 
                 {errorMsg && (
@@ -144,53 +213,108 @@ function EditBookModal({ isOpen, bookData, onClose, onEditSuccess }) {
 
                 <form onSubmit={handleSubmit}>
                     <div style={inputGroupStyle}>
-                        <label style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Judul Buku</label>
+                        <label style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Judul Buku *</label>
                         <input 
                             type="text"
+                            name="title"
                             placeholder="Masukkan judul buku..."
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
+                            value={form.title}
+                            onChange={handleChange}
                             style={inputStyle}
                             required
                         />
                     </div>
 
                     <div style={inputGroupStyle}>
-                        <label style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Nama Penulis</label>
+                        <label style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Nama Penulis *</label>
                         <input 
                             type="text"
+                            name="author"
                             placeholder="Masukkan nama penulis..."
-                            value={author}
-                            onChange={(e) => setAuthor(e.target.value)}
+                            value={form.author}
+                            onChange={handleChange}
                             style={inputStyle}
                             required
                         />
                     </div>
 
+                    <div style={inputGroupStyle}>
+                        <label style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Penerbit</label>
+                        <input 
+                            type="text"
+                            name="publisher"
+                            placeholder="Masukkan nama penerbit..."
+                            value={form.publisher}
+                            onChange={handleChange}
+                            style={inputStyle}
+                        />
+                    </div>
+
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                         <div style={inputGroupStyle}>
-                            <label style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Tahun Terbit</label>
+                            <label style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Tahun Terbit *</label>
                             <input 
                                 type="number"
+                                name="publish_year"
                                 placeholder="Contoh: 2024"
-                                value={year}
-                                onChange={(e) => setYear(e.target.value)}
+                                value={form.publish_year}
+                                onChange={handleChange}
                                 style={inputStyle}
                                 required
                             />
                         </div>
 
                         <div style={inputGroupStyle}>
-                            <label style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Jumlah Stok</label>
+                            <label style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Jumlah Stok *</label>
                             <input 
                                 type="number"
+                                name="stock"
                                 placeholder="Contoh: 10"
-                                value={stock}
-                                onChange={(e) => setStock(e.target.value)}
+                                min="0"
+                                value={form.stock}
+                                onChange={handleChange}
                                 style={inputStyle}
                                 required
                             />
                         </div>
+                    </div>
+
+                    <div style={inputGroupStyle}>
+                        <label style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>ISBN</label>
+                        <input 
+                            type="text"
+                            name="isbn"
+                            placeholder="Contoh: 978-0132350884"
+                            value={form.isbn}
+                            onChange={handleChange}
+                            style={inputStyle}
+                        />
+                    </div>
+
+                    <div style={inputGroupStyle}>
+                        <label style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Kategori *</label>
+                        <select
+                            name="category_id"
+                            value={form.category_id}
+                            onChange={handleChange}
+                            style={inputStyle}
+                            required
+                        >
+                            <option value="">Pilih Kategori</option>
+                            {categories.map(cat => (
+                                <option key={cat.id} value={cat.id}>{cat.category_name}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div style={inputGroupStyle}>
+                        <label style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>Cover Image</label>
+                        <input 
+                            type="file"
+                            accept="image/jpeg,image/png,image/jpg"
+                            onChange={(e) => setCoverFile(e.target.files[0])}
+                            style={inputStyle}
+                        />
                     </div>
 
                     <div style={buttonGroupStyle}>
@@ -210,7 +334,7 @@ function EditBookModal({ isOpen, bookData, onClose, onEditSuccess }) {
                             onMouseOver={(e) => e.target.style.backgroundColor = '#008c94'}
                             onMouseOut={(e) => e.target.style.backgroundColor = '#00adb5'}
                         >
-                            {loading ? 'Menyimpan...' : 'Simpan Perubahan'}
+                            {loading ? 'Menyimpan...' : (isEditMode ? 'Simpan Perubahan' : 'Tambah Buku')}
                         </button>
                     </div>
                 </form>

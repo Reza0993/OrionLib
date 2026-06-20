@@ -66,6 +66,21 @@ class BookController {
 
         const { category_id, title, author, publisher, publish_year, isbn, stock } = req.body;
         
+        // Validasi category_id exists di database jika diberikan
+        if (category_id) {
+            const db = require('../config/database');
+            const [catCheck] = await db.promise().query("SELECT id FROM categories WHERE id = ?", [category_id]);
+            if (catCheck.length === 0) {
+                if (req.file) {
+                    fs.unlinkSync(req.file.path);
+                }
+                return res.status(422).json({
+                    success: false,
+                    message: "Kategori tidak ditemukan"
+                });
+            }
+        }
+
         // Mempersiapkan objek data yang akan dikirim ke MySQL
         const dataBook = {
             category_id: category_id || null,
@@ -75,7 +90,7 @@ class BookController {
             publish_year,
             isbn: isbn || null,
             stock: stock || 0,
-            cover_img: req.file ? req.file.filename : null // Menyimpan nama berkas baru hasil rename multer
+            cover_img: req.file ? req.file.filename : null
         };
 
         try {
@@ -239,6 +254,9 @@ class BookController {
             const db = require('../config/database');
             const promises = books.map(book => {
                 return new Promise((resolve, reject) => {
+                    if (!book.title || !book.author) {
+                        return reject(new Error("Judul dan penulis wajib diisi untuk setiap buku"));
+                    }
                     const dataBook = {
                         category_id: book.category_id || null,
                         title: book.title,
